@@ -8,7 +8,7 @@ public class Apartment
     public int Id { get; set; }
 
     [Required]
-    [MaxLength(Constants.ApartmentMaxLength)]
+    [MaxLength(Constants.ApartmentTypeMaxLength)]
     public string ApartmentType { get; set; }
 
     [Required]

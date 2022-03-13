@@ -1,0 +1,52 @@
+﻿@model AddApartmentFormModel
+
+@{
+    ViewData["Title"] = "Add Apartment";
+}
+
+
+<div class="col-6 align-content-center">
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="ApartmentType">Apartment type</label>
+            <input asp-for="ApartmentType" class="form-control"  placeholder="1,2,3...rooms apartment">
+            <span asp-validation-for="ApartmentType" class="small text-danger" ></span>
+        </div>
+    
+        <div class="form-group">
+            <label asp-for="Location"></label>
+            <input asp-for="Location" class="form-control"  placeholder="Adress of the estate...">
+            <span asp-validation-for="Location" class="small text-danger" ></span>
+        </div>
+    
+        <div class="form-group">
+            <label asp-for="ImageUrl"></label>
+            <input asp-for="ImageUrl" class="form-control"  >
+            <span asp-validation-for="ImageUrl" class="small text-danger" ></span>
+        </div>
+    
+        <div class="form-group">
+            <label asp-for="Year"></label>
+            <input asp-for="Year" class="form-control"  >
+            <span asp-validation-for="Year" class="small text-danger" ></span>
+        </div>
+   
+   
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea asp-for ="Description"class="form-control"  rows="5" placeholder="Describe shortly the location of the estate...busstop - 100meters, near school...etc"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+    
+        <div class="form-group">
+            <label asp-for="CategoryId"></label>
+            <select asp-for="CategoryId" class="form-control">
+               @foreach (var category in Model.Categories)
+               {
+                   <option value="@category.Id">@category.Name</option>
+               }
+               
+            </select>
+        </div>
+    </form>
+</div>
