@@ -1,13 +1,13 @@
 ﻿using ApartmentRentingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ApartmentRentingSystem.Data;
-using ApartmentRentingSystem.Models.Apartments;
+using ApartmentRentingSystem.Models.Home;
 
 namespace ApartmentRentingSystem.Controllers
 {
@@ -23,22 +23,29 @@ namespace ApartmentRentingSystem.Controllers
 
         public IActionResult Index()
         {
+
+            var allApartments = this._db.Apartments.Count();
+
             var apartments =
                 this._db.Apartments
                     .OrderByDescending(a => a.Id)
-                    .Select(a => new ApartmentListingViewModel
+                    .Select(a => new ApartmentIndexViewModel()
                     {
                         Id = a.Id,
                         ApartmentType = a.ApartmentType,
                         Location = a.Location,
                         ImageUrl = a.ImageUrl,
-                        Year = a.Year,
-                        Category = a.Category.Name,
+                        Year = a.Year
+                        
                     })
                     .Take(3)
                     .ToList();
 
-            return View(apartments);
+            return View(new IndexViewModel
+            {
+                AllApartments = allApartments,
+                Apartments = apartments
+            });
         }
 
        
