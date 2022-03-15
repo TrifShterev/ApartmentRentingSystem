@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using ApartmentRentingSystem.Utilities;
 
 
 public class Apartment
 {
+   
     public int Id { get; set; }
 
     [Required]
@@ -22,9 +24,10 @@ public class Apartment
     [Required]
     public string Description { get; set; }
 
+  
     public int CategoryId { get; set; }
 
-    public Category Category { get; set; }
+    public Category Category { get; init; }
 
 
 }

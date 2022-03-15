@@ -34,6 +34,8 @@ namespace ApartmentRentingSystem.Controllers
             if (!ModelState.IsValid)
             {
                 apartment.Categories = this.GetApartmentCategories();
+
+                return View(apartment);
             }
 
             var newApartment = new Apartment
@@ -43,7 +45,8 @@ namespace ApartmentRentingSystem.Controllers
                 Location = apartment.Location,
                 ImageUrl = apartment.ImageUrl,
                 Year = apartment.Year,
-                Description = apartment.Description
+                Description = apartment.Description,
+                CategoryId = apartment.CategoryId
 
             };
 
@@ -51,7 +54,25 @@ namespace ApartmentRentingSystem.Controllers
             this._db.SaveChanges();
 
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult All()
+        {
+            var apartments =
+                this._db.Apartments
+                    .OrderByDescending(a => a.Id)
+                    .Select(a => new ApartmentListingViewModel
+                    {
+                        Id = a.Id,
+                        ApartmentType = a.ApartmentType,
+                        Location = a.Location,
+                        ImageUrl = a.ImageUrl,
+                        Year = a.Year,
+                        Category = a.Category.Name,
+                    }).ToList();
+
+            return View(apartments);
         }
 
         private IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories()

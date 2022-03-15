@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApartmentRentingSystem.Data.Migrations
 {
     [DbContext(typeof(ApartmentRentingDbContext))]
-    [Migration("20220311210542_ApartmentAndCategoryTablesCreated")]
+    [Migration("20220315151529_ApartmentAndCategoryTablesCreated")]
     partial class ApartmentAndCategoryTablesCreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

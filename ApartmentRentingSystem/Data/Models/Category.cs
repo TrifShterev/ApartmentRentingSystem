@@ -5,11 +5,12 @@ using ApartmentRentingSystem.Utilities;
 
 public class Category
 {
-    public int Id { get; set; }
+    
+    public int Id { get; init; }
 
     [Required]
     [MaxLength(Constants.CategoryNameMaxLength)]
     public string Name { get; set; }
 
-    public IEnumerable<Apartment> Apartments { get; set; } = new List<Apartment>();
+    public IEnumerable<Apartment> Apartments { get; init; } = new List<Apartment>();
 }
