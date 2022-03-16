@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ApartmentRentingSystem.Models.Apartments
 {
     public class AllApartmentsSearchModel
     {
+        public const int ApartmentsPerPage = 6;
+
         [Display(Name = "Select Apartment Type:")]
         public string ApartmentType { get; set; }
 
@@ -15,6 +18,10 @@ namespace ApartmentRentingSystem.Models.Apartments
 
         [Display(Name = "Sort by:")]
         public ApartmentSortingEnum ApartmentSorting { get; set; }
+
+        public int CurrentPage { get; set; } = 1;
+
+        public int TotalApartments { get; set; }
 
         public IEnumerable<ApartmentListingViewModel> Apartments { get; set; }
     }

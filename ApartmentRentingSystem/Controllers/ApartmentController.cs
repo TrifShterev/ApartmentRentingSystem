@@ -86,8 +86,12 @@ namespace ApartmentRentingSystem.Controllers
                 _=> apartmentsQuery.OrderByDescending(a => a.Id)
             };
 
+            var totalApartments = apartmentsQuery.Count();
+
             var apartments =
                 apartmentsQuery
+                    .Skip((query.CurrentPage - 1)* AllApartmentsSearchModel.ApartmentsPerPage)
+                    .Take(AllApartmentsSearchModel.ApartmentsPerPage)
                     .Select(a => new ApartmentListingViewModel
                     {
                         Id = a.Id,
@@ -104,6 +108,7 @@ namespace ApartmentRentingSystem.Controllers
                 .Distinct()
                 .ToList();
 
+            query.TotalApartments = totalApartments;
             query.ApartmentTypes = apartmentTypes;
             query.Apartments = apartments;
 
