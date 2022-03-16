@@ -1,18 +1,61 @@
-﻿@model IEnumerable<ApartmentListingViewModel>
+﻿@model AllApartmentsSearchModel
+
+<form method="get">
+<div class="row mb-5">
+    <div class="form-group col-md-4">
+        <div class="form-group">
+            <label asp-for="ApartmentType"></label>
+            <select asp-for="ApartmentType" class="form-control">
+                
+                <option value="">All</option>
+
+                @foreach (var apartment in Model.ApartmentTypes)
+                {
+                    <option value="@apartment">@apartment</option>
+                }
+
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group col-md-4">
+        <label asp-for="SearchTerm"></label>
+        <input asp-for="SearchTerm" class="form-control" placeholder="Write search term here and press 'Enter'">
+    </div>
+    <div class="form-group col-md-4">
+        <div class="form-group">
+            <label asp-for="ApartmentSorting"></label>
+            <select asp-for="ApartmentSorting" class="form-control">
+                
+                <option value="0" selected="">Year</option>
+                <option value="1">Location</option>
+                <option value="2">Apartment Type</option>
+
+               
+
+            </select>
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary"value="Search">
+    
+</div>
+</form>
 
 <div class="row">
-    @foreach (var apartment in Model)
+
+    @foreach (var apartment in Model.Apartments)
     {
         <div class="col-md-4">
             <div class="card">
                 <img class="card-img-top" src="@apartment.ImageUrl" alt="@apartment.ApartmentType @apartment.Location @apartment.Year (@apartment.Category)">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center"> @apartment.Category @apartment.ApartmentType (@apartment.Year) @apartment.Location </h5>
-                
+
                     <a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" class="btn btn-primary">View Details</a>
                 </div>
             </div>
         </div>
-        
+
     }
 </div>

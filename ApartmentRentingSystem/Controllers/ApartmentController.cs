@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Models.Apartments;
@@ -57,11 +58,36 @@ namespace ApartmentRentingSystem.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery] AllApartmentsSearchModel query)
         {
+            var apartmentsQuery = this._db
+                .Apartments
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.ApartmentType))
+            {
+                apartmentsQuery = apartmentsQuery
+                    .Where(a => a.ApartmentType == query.ApartmentType);
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                apartmentsQuery = apartmentsQuery
+                    .Where(a => (a.ApartmentType + " " + a.Location).ToLower()
+                        .Contains(query.SearchTerm.ToLower())
+                        || a.Description.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            apartmentsQuery = query.ApartmentSorting switch
+            {
+                ApartmentSortingEnum.Year => apartmentsQuery.OrderByDescending(a => a.Year),
+                ApartmentSortingEnum.Location => apartmentsQuery.OrderByDescending(a => a.Location),
+                ApartmentSortingEnum.ApartmentType => apartmentsQuery.OrderByDescending(a => a.ApartmentType),
+                _=> apartmentsQuery.OrderByDescending(a => a.Id)
+            };
+
             var apartments =
-                this._db.Apartments
-                    .OrderByDescending(a => a.Id)
+                apartmentsQuery
                     .Select(a => new ApartmentListingViewModel
                     {
                         Id = a.Id,
@@ -72,7 +98,16 @@ namespace ApartmentRentingSystem.Controllers
                         Category = a.Category.Name,
                     }).ToList();
 
-            return View(apartments);
+            var apartmentTypes = this._db
+                .Apartments
+                .Select(a => a.ApartmentType)
+                .Distinct()
+                .ToList();
+
+            query.ApartmentTypes = apartmentTypes;
+            query.Apartments = apartments;
+
+            return View(query);
         }
 
         private IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories()
