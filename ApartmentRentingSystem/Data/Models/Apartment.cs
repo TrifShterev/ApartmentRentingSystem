@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Utilities;
 
 
@@ -28,6 +28,10 @@ public class Apartment
     public int CategoryId { get; set; }
 
     public Category Category { get; init; }
+
+    public int BrokerId { get; set; }
+
+    public Broker Broker { get; set; }
 
 
 }
