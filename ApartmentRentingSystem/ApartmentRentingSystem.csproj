@@ -17,8 +17,8 @@
 
   <ItemGroup>
     <Folder Include="Data\Models\" />
-    <Folder Include="Infrastructor\" />
     <Folder Include="Models\Home\" />
+    <Folder Include="Models\Broker\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
 

@@ -5,46 +5,48 @@
 }
 
 <form method="get">
-<div class="row mb-5">
-    <div class="form-group col-md-4">
-        <div class="form-group">
-            <label asp-for="ApartmentType"></label>
-            <select asp-for="ApartmentType" class="form-control">
+    <div class="row mb-5">
+        <div class="form-group col-md-4">
+            <div class="form-group">
+                <label asp-for="ApartmentType"></label>
+                <select asp-for="ApartmentType" class="form-control">
                 
-                <option value="">All</option>
+                    <option value="">All</option>
 
-                @foreach (var apartment in Model.ApartmentTypes)
-                {
-                    <option value="@apartment">@apartment</option>
-                }
+                    @foreach (var apartment in Model.ApartmentTypes)
+                    {
+                        <option value="@apartment">@apartment</option>
+                    }
 
-            </select>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group col-md-4">
-        <label asp-for="SearchTerm"></label>
-        <input asp-for="SearchTerm" class="form-control" placeholder="Write search term here and press 'Enter'">
-    </div>
-    <div class="form-group col-md-4">
-        <div class="form-group">
-            <label asp-for="ApartmentSorting"></label>
-            <select asp-for="ApartmentSorting" class="form-control">
+        <div class="form-group col-md-4">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="Write search term here and press 'Enter'">
+        </div>
+        <div class="form-group col-md-4">
+            <div class="form-group">
+                <label asp-for="ApartmentSorting"></label>
+                <select asp-for="ApartmentSorting" class="form-control">
                 
-                <option value="0" selected="">Year</option>
-                <option value="1">Location</option>
-                <option value="2">Apartment Type</option>
+                    <option value="0" selected="">Year</option>
+                    <option value="1">Location</option>
+                    <option value="2">Apartment Type</option>
 
                
 
-            </select>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <input type="submit" class="btn btn-primary"value="Search">
+        <input type="submit" class="btn btn-primary"value="Search">
     
-</div>
+    </div>
 </form>
+
+
 
 @{
     var previousPage = Model.CurrentPage - 1;
@@ -76,6 +78,11 @@
            class="btn btn-info float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)" >Next Page</a>
     </div>
 </div>
+
+ @if (!Model.Apartments.Any())
+ {
+    <h2> No Estates found by the given criteria</h2>
+ }
 
 <div class="row">
 
