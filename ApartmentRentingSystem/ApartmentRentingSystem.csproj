@@ -19,6 +19,7 @@
     <Folder Include="Data\Models\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Broker\" />
+    <Folder Include="Services\Brokers\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
 

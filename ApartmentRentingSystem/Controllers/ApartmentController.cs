@@ -6,6 +6,7 @@ using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Apartments;
 using ApartmentRentingSystem.Services.Apartments;
+using ApartmentRentingSystem.Services.Brokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,19 +14,22 @@ namespace ApartmentRentingSystem.Controllers
 {
     public class ApartmentController : Controller
     {
-        private readonly ApartmentRentingDbContext _db;
+        
         private readonly IApartmentsService _apartmentsService;
-        public ApartmentController(ApartmentRentingDbContext db, IApartmentsService apartmentsService)
+        private readonly IBrokerService _brokerService;
+
+        public ApartmentController(IApartmentsService apartmentsService, IBrokerService brokerService)
         {
-            this._db = db;
+            
             _apartmentsService = apartmentsService;
+            _brokerService = brokerService;
         }
 
 
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIsBroker())
+            if (!_brokerService.UserIsBroker(this.User.GetId()))
             {
                 return RedirectToAction(nameof(BrokerController.Create), "Broker");
             }
@@ -33,7 +37,7 @@ namespace ApartmentRentingSystem.Controllers
 
             return View(new AddApartmentFormModel()
             {
-                Categories = this.GetApartmentCategories()
+                Categories = _apartmentsService.GetApartmentCategories()
             });
         }
 
@@ -41,18 +45,14 @@ namespace ApartmentRentingSystem.Controllers
         [Authorize]
         public IActionResult Add(AddApartmentFormModel apartment)
         {
-            var brokerId = this._db
-                .Brokers
-                .Where(b=> b.UserId == this.User.GetId())
-                .Select(b => b.Id)
-                .FirstOrDefault();
+            var brokerId = _brokerService.BrokerId(this.User.GetId());
 
             if (brokerId == 0)
             {
                 return RedirectToAction(nameof(BrokerController.Create), "Broker");
             }
 
-            if (!this._db.Categories.Any(c => c.Id == apartment.CategoryId))
+            if (!_apartmentsService.GetApartmentCategories().Any(c => c.Id == apartment.CategoryId))
             {
                 this.ModelState
                     .AddModelError(nameof(apartment.CategoryId), "Category doesn't exist!");
@@ -60,26 +60,12 @@ namespace ApartmentRentingSystem.Controllers
 
             if (!ModelState.IsValid)
             {
-                apartment.Categories = this.GetApartmentCategories();
+                apartment.Categories = _apartmentsService.GetApartmentCategories();
 
                 return View(apartment);
             }
 
-            var newApartment = new Apartment
-            {
-
-                ApartmentType = apartment.ApartmentType,
-                Location = apartment.Location,
-                ImageUrl = apartment.ImageUrl,
-                Year = apartment.Year,
-                Description = apartment.Description,
-                CategoryId = apartment.CategoryId,
-                BrokerId = brokerId
-
-            };
-
-            this._db.Apartments.Add(newApartment);
-            this._db.SaveChanges();
+            var apartmentId = _apartmentsService.AddApartment(apartment, brokerId);
 
 
             return RedirectToAction(nameof(All));
@@ -100,23 +86,8 @@ namespace ApartmentRentingSystem.Controllers
         }
 
 
-        private bool UserIsBroker()
-        {
-            //takes the Id from the user via ClaimTypes(check GetId method in Infrastructure/ClaimsPrincipalExtension) other option is via UserManager
-            var userId = this.User.GetId();
-
-            return this._db
-                .Brokers
-                .Any(broker => broker.UserId == userId);
-        }
-        private IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories()
-            => this._db
-                .Categories
-                .Select(c => new ApartmentCategoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                }).ToList();
+       
+       
     }
 
     

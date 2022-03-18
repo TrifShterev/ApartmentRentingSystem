@@ -3,6 +3,7 @@ using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Broker;
+using ApartmentRentingSystem.Services.Brokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,11 @@ namespace ApartmentRentingSystem.Controllers
 {
     public class BrokerController : Controller
     {
-        private readonly ApartmentRentingDbContext _db;
+        private readonly IBrokerService _brokerService;
 
-        public BrokerController(ApartmentRentingDbContext db)
+        public BrokerController(IBrokerService brokerService)
         {
-            _db = db;
+            _brokerService = brokerService;
         }
 
         [Authorize]
@@ -29,11 +30,7 @@ namespace ApartmentRentingSystem.Controllers
         {
             var userId = this.User.GetId();
 
-            var userIsAlreadyBroker = _db
-                .Brokers
-                .Any(b => b.UserId == userId);
-
-            if (userIsAlreadyBroker)
+            if (_brokerService.UserIsBroker(this.User.GetId()))
             {
                 return BadRequest();
             }
@@ -43,15 +40,9 @@ namespace ApartmentRentingSystem.Controllers
                 return View(broker);
             }
 
-            var newBroker = new Broker
-            {
-                Name = broker.Name,
-                PhoneNumber = broker.PhoneNumber,
-                UserId = userId
-            };
+            _brokerService.AddBroker(broker,userId);
 
-            _db.Brokers.Add(newBroker);
-            _db.SaveChanges();
+           
 
             return RedirectToAction("All", "Apartment");
         }

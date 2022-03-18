@@ -1,4 +1,5 @@
-﻿using ApartmentRentingSystem.Models.Apartments;
+﻿using System.Collections.Generic;
+using ApartmentRentingSystem.Models.Apartments;
 
 namespace ApartmentRentingSystem.Services.Apartments
 {
@@ -9,5 +10,9 @@ namespace ApartmentRentingSystem.Services.Apartments
             ApartmentSortingEnum sorting,
             int currentPage,
             int apartmentsPerPage);
+
+        public int AddApartment(AddApartmentFormModel apartment, int brokerId);
+
+        public IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories();
     }
 }

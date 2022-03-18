@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Models.Apartments;
 
@@ -13,6 +14,26 @@ namespace ApartmentRentingSystem.Services.Apartments
             _db = db;
         }
 
+        public int AddApartment(AddApartmentFormModel apartment, int brokerId)
+        {
+            var newApartment = new Apartment
+            {
+
+                ApartmentType = apartment.ApartmentType,
+                Location = apartment.Location,
+                ImageUrl = apartment.ImageUrl,
+                Year = apartment.Year,
+                Description = apartment.Description,
+                CategoryId = apartment.CategoryId,
+                BrokerId = brokerId
+
+            };
+
+            this._db.Apartments.Add(newApartment);
+            this._db.SaveChanges();
+
+            return newApartment.Id;
+        }
 
         public AllApartmentsSearchModel GetAll(
             string apartmentType,
@@ -77,5 +98,14 @@ namespace ApartmentRentingSystem.Services.Apartments
                 CurrentPage = currentPage
             };
         }
+       
+        public IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories()
+            => this._db
+                .Categories
+                .Select(c => new ApartmentCategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                }).ToList();
     }
 }

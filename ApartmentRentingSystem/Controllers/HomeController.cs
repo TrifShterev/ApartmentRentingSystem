@@ -21,8 +21,6 @@ namespace ApartmentRentingSystem.Controllers
         public IActionResult Index()
         {
 
-           
-
             var totalStatistics = this._statistics.GetStatistics();
 
             return View(totalStatistics);

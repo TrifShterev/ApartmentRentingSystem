@@ -1,6 +1,7 @@
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Services;
 using ApartmentRentingSystem.Services.Apartments;
+using ApartmentRentingSystem.Services.Brokers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -45,6 +46,7 @@ namespace ApartmentRentingSystem
 
             services.AddTransient<IStatsService, StatsService>();
             services.AddTransient<IApartmentsService, ApartmentsService>();
+            services.AddTransient<IBrokerService, BrokerService>();
         }
 
         
