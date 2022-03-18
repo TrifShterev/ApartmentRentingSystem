@@ -5,7 +5,7 @@ using System.Security.Claims;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Apartments;
-
+using ApartmentRentingSystem.Services.Apartments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +14,12 @@ namespace ApartmentRentingSystem.Controllers
     public class ApartmentController : Controller
     {
         private readonly ApartmentRentingDbContext _db;
-
-        public ApartmentController(ApartmentRentingDbContext _db)
-        => this._db = _db;
+        private readonly IApartmentsService _apartmentsService;
+        public ApartmentController(ApartmentRentingDbContext db, IApartmentsService apartmentsService)
+        {
+            this._db = db;
+            _apartmentsService = apartmentsService;
+        }
 
 
         [Authorize]
@@ -81,62 +84,19 @@ namespace ApartmentRentingSystem.Controllers
 
             return RedirectToAction(nameof(All));
         }
-
+        
         public IActionResult All([FromQuery] AllApartmentsSearchModel query)
         {
-            var apartmentsQuery = this._db
-                .Apartments
-                .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(query.ApartmentType))
-            {
-                apartmentsQuery = apartmentsQuery
-                    .Where(a => a.ApartmentType == query.ApartmentType);
-            }
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                apartmentsQuery = apartmentsQuery
-                    .Where(a => (a.ApartmentType + " " + a.Location).ToLower()
-                        .Contains(query.SearchTerm.ToLower())
-                        || a.Description.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
+            var apartments = this._apartmentsService.GetAll(
+                query.ApartmentType,
+                query.SearchTerm,
+                query.ApartmentSorting,
+                query.CurrentPage,
+                AllApartmentsSearchModel.ApartmentsPerPage);
 
-            apartmentsQuery = query.ApartmentSorting switch
-            {
-                ApartmentSortingEnum.Year => apartmentsQuery.OrderByDescending(a => a.Year),
-                ApartmentSortingEnum.Location => apartmentsQuery.OrderByDescending(a => a.Location),
-                ApartmentSortingEnum.ApartmentType => apartmentsQuery.OrderByDescending(a => a.ApartmentType),
-                _=> apartmentsQuery.OrderByDescending(a => a.Id)
-            };
-
-            var totalApartments = apartmentsQuery.Count();
-
-            var apartments =
-                apartmentsQuery
-                    .Skip((query.CurrentPage - 1)* AllApartmentsSearchModel.ApartmentsPerPage)
-                    .Take(AllApartmentsSearchModel.ApartmentsPerPage)
-                    .Select(a => new ApartmentListingViewModel
-                    {
-                        Id = a.Id,
-                        ApartmentType = a.ApartmentType,
-                        Location = a.Location,
-                        ImageUrl = a.ImageUrl,
-                        Year = a.Year,
-                        Category = a.Category.Name,
-                    }).ToList();
-
-            var apartmentTypes = this._db
-                .Apartments
-                .Select(a => a.ApartmentType)
-                .Distinct()
-                .ToList();
-
-            query.TotalApartments = totalApartments;
-            query.ApartmentTypes = apartmentTypes;
-            query.Apartments = apartments;
-
-            return View(query);
+            return View(apartments);
         }
 
 

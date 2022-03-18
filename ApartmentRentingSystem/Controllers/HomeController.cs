@@ -1,51 +1,31 @@
 ﻿using ApartmentRentingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
-
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using ApartmentRentingSystem.Data;
-using ApartmentRentingSystem.Models.Home;
-
+using ApartmentRentingSystem.Services;
 namespace ApartmentRentingSystem.Controllers
 {
     public class HomeController : Controller
     {
 
-        private readonly ApartmentRentingDbContext _db;
+        
+        private readonly IStatsService _statistics;
 
-        public HomeController(ApartmentRentingDbContext _db)
-            => this._db = _db;
+        public HomeController(IStatsService statistics)
+        {
+            this._statistics = statistics;
+           
+        }
 
       
 
         public IActionResult Index()
         {
 
-            var allApartments = this._db.Apartments.Count();
+           
 
-            var apartments =
-                this._db.Apartments
-                    .OrderByDescending(a => a.Id)
-                    .Select(a => new ApartmentIndexViewModel()
-                    {
-                        Id = a.Id,
-                        ApartmentType = a.ApartmentType,
-                        Location = a.Location,
-                        ImageUrl = a.ImageUrl,
-                        Year = a.Year
-                        
-                    })
-                    .Take(3)
-                    .ToList();
+            var totalStatistics = this._statistics.GetStatistics();
 
-            return View(new IndexViewModel
-            {
-                AllApartments = allApartments,
-                Apartments = apartments
-            });
+            return View(totalStatistics);
         }
 
        
