@@ -70,6 +70,14 @@ namespace ApartmentRentingSystem.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [Authorize]
+        public IActionResult Mine()
+        {
+            var myApartments = this._apartmentsService.ApartmentsOwnedByUser(this.User.GetId());
+
+            return View(myApartments);
+        }
         
         public IActionResult All([FromQuery] AllApartmentsSearchModel query)
         {

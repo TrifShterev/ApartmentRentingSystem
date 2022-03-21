@@ -14,6 +14,10 @@ namespace ApartmentRentingSystem.Services.Apartments
             _db = db;
         }
 
+        public IEnumerable<ApartmentListingViewModel> ApartmentsOwnedByUser(string userId)
+            => GetApartments(this._db.Apartments
+                .Where(a => a.Broker.UserId == userId));
+
         public int AddApartment(AddApartmentFormModel apartment, int brokerId)
         {
             var newApartment = new Apartment
@@ -70,19 +74,12 @@ namespace ApartmentRentingSystem.Services.Apartments
 
             var totalApartments = apartmentsQuery.Count();
 
-            var apartments =
+            var apartments = GetApartments(
                 apartmentsQuery
-                    .Skip((currentPage - 1) * apartmentsPerPage)
-                    .Take(apartmentsPerPage)
-                    .Select(a => new ApartmentListingViewModel
-                    {
-                        Id = a.Id,
-                        ApartmentType = a.ApartmentType,
-                        Location = a.Location,
-                        ImageUrl = a.ImageUrl,
-                        Year = a.Year,
-                        Category = a.Category.Name,
-                    }).ToList();
+                .Skip((currentPage - 1) * apartmentsPerPage)
+                .Take(apartmentsPerPage));
+               
+                    
 
             var apartmentTypes = this._db
                 .Apartments
@@ -107,5 +104,17 @@ namespace ApartmentRentingSystem.Services.Apartments
                     Id = c.Id,
                     Name = c.Name,
                 }).ToList();
+
+        private static IEnumerable<ApartmentListingViewModel> GetApartments(IQueryable<Apartment> apartmentQuery)
+        => apartmentQuery
+            .Select(a => new ApartmentListingViewModel
+            {
+                Id = a.Id,
+                ApartmentType = a.ApartmentType,
+                Location = a.Location,
+                ImageUrl = a.ImageUrl,
+                Year = a.Year,
+                Category = a.Category.Name,
+            }).ToList();
     }
 }

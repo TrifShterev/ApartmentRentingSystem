@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ApartmentListingViewModel>
+
+
+@{
+    ViewData["Title"] = "My Apartments";
+}
+
+@if (!Model.Any())
+{
+    <h2> You DO NOT have any estates yet!</h2>
+}
+
+<partial name="_apartmentsPartial" model="Model"/>

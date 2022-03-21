@@ -9,7 +9,10 @@ namespace ApartmentRentingSystem.Services.Apartments
             string searchTerm,
             ApartmentSortingEnum sorting,
             int currentPage,
-            int apartmentsPerPage);
+            int apartmentsPerPage
+            );
+
+        IEnumerable<ApartmentListingViewModel> ApartmentsOwnedByUser(string userId);
 
         public int AddApartment(AddApartmentFormModel apartment, int brokerId);
 

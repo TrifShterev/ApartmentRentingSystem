@@ -1,13 +1,32 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using ApartmentRentingSystem.Services.Brokers
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IBrokerService _brokers
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    
+        var userId = User.GetId();
+        var userIsBroker = _brokers.UserIsBroker(userId);
+    
+    
+    
+    @if (userIsBroker)
+    {
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="" asp-controller="Broker" asp-action="Create">Become a Broker</a>
+    <a  class="nav-link text-dark" asp-area="" asp-controller="Apartment" asp-action="Mine">My Estates</a>
     </li>
+    }
+    else
+    {
+    <li class="nav-item">
+    <a  class="nav-link text-dark" asp-area="" asp-controller="Broker" asp-action="Create">Become a Broker</a>
+    </li>
+    }
+    
+   
 
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
