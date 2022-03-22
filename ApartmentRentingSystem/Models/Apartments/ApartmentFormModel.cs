@@ -6,7 +6,7 @@ using ApartmentRentingSystem.Utilities;
 
 namespace ApartmentRentingSystem.Models.Apartments
 {
-    public class AddApartmentFormModel
+    public class ApartmentFormModel
     {
         [Required]
         [StringLength(Constants.ApartmentTypeMaxLength, MinimumLength = Constants.ApartmentTypeMinLength,ErrorMessage = "Wrong input -the apartment type must be between 2 - 50 symbols")]

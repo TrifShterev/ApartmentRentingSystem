@@ -7,11 +7,17 @@
     {
         <div class="col-md-4">
             <div class="card">
-                <img class="card-img-top" src="@apartment.ImageUrl" alt="@apartment.ApartmentType @apartment.Location @apartment.Year (@apartment.Category)">
+                <img class="card-img-top" src="@apartment.ImageUrl" alt="@apartment.ApartmentType @apartment.Location @apartment.Year (@apartment.CategoryName)">
                 <div class="card-body text-center">
-                    <h5 class="card-title text-center"> @apartment.Category @apartment.ApartmentType (@apartment.Year) @apartment.Location </h5>
+                    <h5 class="card-title text-center"> @apartment.CategoryName @apartment.ApartmentType (@apartment.Year) @apartment.Location </h5>
 
                     <a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" class="btn btn-primary">View Details</a>
+
+                    @if (ViewBag.AllowEdit == true)
+                    {
+                        <a asp-controller="Apartment" asp-action="Edit" asp-route-id="@apartment.Id" class="btn btn-warning">Edit</a>
+                        <a asp-controller="Apartment" asp-action="Delete" asp-route-id="@apartment.Id" class="btn btn-danger">Delete</a>
+                    }
                 </div>
             </div>
         </div>

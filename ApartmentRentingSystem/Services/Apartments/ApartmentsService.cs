@@ -14,11 +14,34 @@ namespace ApartmentRentingSystem.Services.Apartments
             _db = db;
         }
 
+        public ApartmentDetailsModel Details(int id)
+            => this._db
+                .Apartments
+                .Where(a => a.Id == id)
+                .Select(a => new ApartmentDetailsModel
+                {
+                    Id = a.Id,
+                    ApartmentType = a.ApartmentType,
+                    Location = a.Location,
+                    ImageUrl = a.ImageUrl,
+                    Description = a.Description,
+                    Year = a.Year,
+                    CategoryName = a.Category.Name,
+                    BrokerId = a.BrokerId,
+                    BrokerName = a.Broker.Name,
+                    UserId = a.Broker.UserId
+
+                })
+                .FirstOrDefault();
+
+
         public IEnumerable<ApartmentListingViewModel> ApartmentsOwnedByUser(string userId)
             => GetApartments(this._db.Apartments
                 .Where(a => a.Broker.UserId == userId));
 
-        public int AddApartment(AddApartmentFormModel apartment, int brokerId)
+
+
+        public int AddApartment(ApartmentFormModel apartment, int brokerId)
         {
             var newApartment = new Apartment
             {
@@ -37,6 +60,32 @@ namespace ApartmentRentingSystem.Services.Apartments
             this._db.SaveChanges();
 
             return newApartment.Id;
+        }
+
+        public bool EditApartment(int apartmentId, ApartmentFormModel apartment, int brokerId)
+        {
+            var currentApartmentData = this._db
+                .Apartments
+                .FirstOrDefault(a => a.Id == apartmentId);
+
+            if (currentApartmentData.BrokerId != brokerId || currentApartmentData == null)
+            {
+                return false;
+            }
+
+            currentApartmentData.ApartmentType = apartment.ApartmentType;
+            currentApartmentData.Location = apartment.Location;
+            currentApartmentData.ImageUrl = apartment.ImageUrl;
+            currentApartmentData.Year = apartment.Year;
+            currentApartmentData.Description = apartment.Description;
+            currentApartmentData.CategoryId = apartment.CategoryId;
+
+
+            this._db.SaveChanges();
+
+            return true;
+
+
         }
 
         public AllApartmentsSearchModel GetAll(
@@ -114,7 +163,7 @@ namespace ApartmentRentingSystem.Services.Apartments
                 Location = a.Location,
                 ImageUrl = a.ImageUrl,
                 Year = a.Year,
-                Category = a.Category.Name,
+                CategoryName = a.Category.Name,
             }).ToList();
     }
 }

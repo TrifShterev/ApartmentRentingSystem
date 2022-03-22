@@ -12,9 +12,13 @@ namespace ApartmentRentingSystem.Services.Apartments
             int apartmentsPerPage
             );
 
+        ApartmentDetailsModel Details(int id);
+
         IEnumerable<ApartmentListingViewModel> ApartmentsOwnedByUser(string userId);
 
-        public int AddApartment(AddApartmentFormModel apartment, int brokerId);
+        public int AddApartment(ApartmentFormModel apartment, int brokerId);
+
+        public bool EditApartment(int apartmentId,ApartmentFormModel apartment, int brokerId);
 
         public IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories();
     }

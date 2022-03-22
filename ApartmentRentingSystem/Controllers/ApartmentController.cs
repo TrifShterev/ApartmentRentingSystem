@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using ApartmentRentingSystem.Data;
+﻿using System.Linq;
 using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Apartments;
 using ApartmentRentingSystem.Services.Apartments;
@@ -35,7 +31,7 @@ namespace ApartmentRentingSystem.Controllers
             }
 
 
-            return View(new AddApartmentFormModel()
+            return View(new ApartmentFormModel()
             {
                 Categories = _apartmentsService.GetApartmentCategories()
             });
@@ -43,7 +39,7 @@ namespace ApartmentRentingSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddApartmentFormModel apartment)
+        public IActionResult Add(ApartmentFormModel apartment)
         {
             var brokerId = _brokerService.BrokerId(this.User.GetId());
 
@@ -65,20 +61,79 @@ namespace ApartmentRentingSystem.Controllers
                 return View(apartment);
             }
 
-            var apartmentId = _apartmentsService.AddApartment(apartment, brokerId);
+            this._apartmentsService.AddApartment(apartment, brokerId);
 
 
             return RedirectToAction(nameof(All));
         }
 
         [Authorize]
-        public IActionResult Mine()
+        public IActionResult Edit(int id)
         {
-            var myApartments = this._apartmentsService.ApartmentsOwnedByUser(this.User.GetId());
+            var userId = this.User.GetId();
 
-            return View(myApartments);
+            if (!_brokerService.UserIsBroker(userId))
+            {
+                return RedirectToAction(nameof(BrokerController.Create), "Broker");
+            }
+
+            var apartment = this._apartmentsService.Details(id);
+
+            if (apartment.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
+
+            return View(new ApartmentFormModel()
+            {
+                ApartmentType = apartment.ApartmentType,
+                Location = apartment.Location,
+                Description = apartment.Description,
+                ImageUrl = apartment.ImageUrl,
+                Year = apartment.Year,
+                CategoryId = apartment.CategoryId,
+                Categories = _apartmentsService.GetApartmentCategories()
+            });
         }
-        
+
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id,ApartmentFormModel apartment)
+        {
+            var brokerId = _brokerService.BrokerId(this.User.GetId());
+
+            if (brokerId == 0)
+            {
+                return RedirectToAction(nameof(BrokerController.Create), "Broker");
+            }
+
+            if (!_apartmentsService.GetApartmentCategories().Any(c => c.Id == apartment.CategoryId))
+            {
+                this.ModelState
+                    .AddModelError(nameof(apartment.CategoryId), "Category doesn't exist!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                apartment.Categories = _apartmentsService.GetApartmentCategories();
+
+                return View(apartment);
+            }
+
+            var apartmentIsEdited = this._apartmentsService.EditApartment(id, apartment, brokerId);
+
+            if (!apartmentIsEdited)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(All));
+        }
+
+
+
         public IActionResult All([FromQuery] AllApartmentsSearchModel query)
         {
 
@@ -94,8 +149,14 @@ namespace ApartmentRentingSystem.Controllers
         }
 
 
-       
-       
+        [Authorize]
+        public IActionResult Mine()
+        {
+            var myApartments = this._apartmentsService.ApartmentsOwnedByUser(this.User.GetId());
+
+            return View(myApartments);
+        }
+
     }
 
     
