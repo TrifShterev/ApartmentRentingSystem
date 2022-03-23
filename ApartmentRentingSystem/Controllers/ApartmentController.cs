@@ -72,14 +72,14 @@ namespace ApartmentRentingSystem.Controllers
         {
             var userId = this.User.GetId();
 
-            if (!_brokerService.UserIsBroker(userId))
+            if (!_brokerService.UserIsBroker(userId) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(BrokerController.Create), "Broker");
             }
 
             var apartment = this._apartmentsService.Details(id);
 
-            if (apartment.UserId != userId)
+            if (apartment.UserId != userId && !User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -104,7 +104,7 @@ namespace ApartmentRentingSystem.Controllers
         {
             var brokerId = _brokerService.BrokerId(this.User.GetId());
 
-            if (brokerId == 0)
+            if (brokerId == 0 && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(BrokerController.Create), "Broker");
             }
@@ -124,7 +124,7 @@ namespace ApartmentRentingSystem.Controllers
 
             var apartmentIsEdited = this._apartmentsService.EditApartment(id, apartment, brokerId);
 
-            if (!apartmentIsEdited)
+            if (!apartmentIsEdited && !User.IsAdmin())
             {
                 return BadRequest();
             }

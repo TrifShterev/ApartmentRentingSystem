@@ -21,6 +21,11 @@
             public const int BrokerPhoneNumberMaxLength = 30;
             public const int BrokerPhoneNumberMinLength = 5;
         }
+
+        public static class WebConstants
+        {
+            public const string AdminRoleName = "Administrator";
+        }
        
     }
 }

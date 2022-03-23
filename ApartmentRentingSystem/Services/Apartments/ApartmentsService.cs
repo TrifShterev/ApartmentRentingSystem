@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ApartmentRentingSystem.Data;
+using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Models.Apartments;
 
 namespace ApartmentRentingSystem.Services.Apartments
