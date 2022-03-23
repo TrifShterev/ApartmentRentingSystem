@@ -1,12 +1,11 @@
 using ApartmentRentingSystem.Data;
+using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Services;
 using ApartmentRentingSystem.Services.Apartments;
 using ApartmentRentingSystem.Services.Brokers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +31,7 @@ namespace ApartmentRentingSystem
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<User>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
@@ -41,6 +40,7 @@ namespace ApartmentRentingSystem
 
                     
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApartmentRentingDbContext>();
             services.AddControllersWithViews();
 

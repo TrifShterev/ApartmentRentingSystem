@@ -1,8 +1,10 @@
 ﻿
+using System;
 using System.Linq;
 using ApartmentRentingSystem.Data;
-
+using ApartmentRentingSystem.Data.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,14 +17,15 @@ public static class ApplicationBuilderExtension
     public static IApplicationBuilder PrepareDB(this IApplicationBuilder app)
     {
         using var scopedServices = app.ApplicationServices.CreateScope();
+        var serviceProvider = scopedServices.ServiceProvider;
 
-        var data = scopedServices
-            .ServiceProvider
-            .GetService<ApartmentRentingDbContext>();
+        var data = serviceProvider
+            .GetRequiredService<ApartmentRentingDbContext>();
 
         data.Database.Migrate();
 
         SeedCategories(data);
+        SeedAdmin(data, serviceProvider);
 
         return app;
     }
@@ -46,5 +49,13 @@ public static class ApplicationBuilderExtension
         });
 
         data.SaveChanges();
+    }
+
+    private static void SeedAdmin(ApartmentRentingDbContext data, IServiceProvider services)
+    {
+        var userManager = services.GetRequiredService<UserManager<User>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+
     }
 }

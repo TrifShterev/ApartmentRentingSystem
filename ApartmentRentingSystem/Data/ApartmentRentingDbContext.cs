@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ApartmentRentingSystem.Data
 {
-    public class ApartmentRentingDbContext : IdentityDbContext
+    public class ApartmentRentingDbContext : IdentityDbContext<User>
     {
         public ApartmentRentingDbContext(DbContextOptions<ApartmentRentingDbContext> options)
             : base(options)
@@ -41,7 +41,7 @@ namespace ApartmentRentingSystem.Data
             //ONe to One connection between Broker and User(Every Broker is a user)
             builder
                 .Entity<Broker>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Broker>(b => b.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

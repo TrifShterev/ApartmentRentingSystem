@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using ApartmentRentingSystem.Services.Brokers
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using ApartmentRentingSystem.Data.Models
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IBrokerService _brokers
 
 <ul class="navbar-nav">

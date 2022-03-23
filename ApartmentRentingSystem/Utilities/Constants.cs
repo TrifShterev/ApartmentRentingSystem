@@ -6,6 +6,14 @@
         public const int ApartmentTypeMinLength = 2;
         public const int CategoryNameMaxLength = 20;
 
+        public static class User
+        {
+            public const int UserNameMaxLength = 50;
+            public const int UserNameMinLength = 2;
+            public const int PasswordMaxLength = 100;
+            public const int PasswordMinLength = 6;
+        }
+
         public static class Broker
         {
             public const int BrokerNameMaxLength = 30;
