@@ -3,36 +3,28 @@ using System.Linq;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Models.Apartments;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ApartmentRentingSystem.Services.Apartments
 {
     public class ApartmentsService : IApartmentsService
     {
         private readonly ApartmentRentingDbContext _db;
+        private readonly IMapper _mapper;
 
-        public ApartmentsService(ApartmentRentingDbContext db)
+        public ApartmentsService(ApartmentRentingDbContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
 
         public ApartmentDetailsModel Details(int id)
             => this._db
                 .Apartments
                 .Where(a => a.Id == id)
-                .Select(a => new ApartmentDetailsModel
-                {
-                    Id = a.Id,
-                    ApartmentType = a.ApartmentType,
-                    Location = a.Location,
-                    ImageUrl = a.ImageUrl,
-                    Description = a.Description,
-                    Year = a.Year,
-                    CategoryName = a.Category.Name,
-                    BrokerId = a.BrokerId,
-                    BrokerName = a.Broker.Name,
-                    UserId = a.Broker.UserId
-
-                })
+                .ProjectTo<ApartmentDetailsModel>(this._mapper.ConfigurationProvider)
                 .FirstOrDefault();
 
 
@@ -44,18 +36,9 @@ namespace ApartmentRentingSystem.Services.Apartments
 
         public int AddApartment(ApartmentFormModel apartment, int brokerId)
         {
-            var newApartment = new Apartment
-            {
-
-                ApartmentType = apartment.ApartmentType,
-                Location = apartment.Location,
-                ImageUrl = apartment.ImageUrl,
-                Year = apartment.Year,
-                Description = apartment.Description,
-                CategoryId = apartment.CategoryId,
-                BrokerId = brokerId
-
-            };
+            var newApartment = this._mapper.Map<Apartment>(apartment);
+            newApartment.BrokerId = brokerId;
+              
 
             this._db.Apartments.Add(newApartment);
             this._db.SaveChanges();

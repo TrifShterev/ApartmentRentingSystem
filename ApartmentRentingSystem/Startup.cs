@@ -42,6 +42,9 @@ namespace ApartmentRentingSystem
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApartmentRentingDbContext>();
+
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews();
 
             services.AddTransient<IStatsService, StatsService>();

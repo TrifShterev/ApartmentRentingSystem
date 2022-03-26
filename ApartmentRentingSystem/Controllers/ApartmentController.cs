@@ -3,6 +3,7 @@ using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Apartments;
 using ApartmentRentingSystem.Services.Apartments;
 using ApartmentRentingSystem.Services.Brokers;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +14,14 @@ namespace ApartmentRentingSystem.Controllers
         
         private readonly IApartmentsService _apartmentsService;
         private readonly IBrokerService _brokerService;
+        private readonly IMapper _mapper;
 
-        public ApartmentController(IApartmentsService apartmentsService, IBrokerService brokerService)
+        public ApartmentController(IApartmentsService apartmentsService, IBrokerService brokerService, IMapper mapper)
         {
             
             _apartmentsService = apartmentsService;
             _brokerService = brokerService;
+            _mapper = mapper;
         }
 
 
@@ -84,17 +87,11 @@ namespace ApartmentRentingSystem.Controllers
                 return Unauthorized();
             }
 
+            var apartmentForm = this._mapper.Map<ApartmentFormModel>(apartment);
 
-            return View(new ApartmentFormModel()
-            {
-                ApartmentType = apartment.ApartmentType,
-                Location = apartment.Location,
-                Description = apartment.Description,
-                ImageUrl = apartment.ImageUrl,
-                Year = apartment.Year,
-                CategoryId = apartment.CategoryId,
-                Categories = _apartmentsService.GetApartmentCategories()
-            });
+            apartmentForm.Categories = this._apartmentsService.GetApartmentCategories();
+
+            return View(apartmentForm);
         }
 
 

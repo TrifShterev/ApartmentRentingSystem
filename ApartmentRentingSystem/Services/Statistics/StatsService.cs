@@ -1,16 +1,20 @@
 ﻿using System.Linq;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Models.Home;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace ApartmentRentingSystem.Services
 {
     public class StatsService : IStatsService
     {
         private readonly ApartmentRentingDbContext _db;
+       private readonly IMapper _mapper;
 
-        public StatsService(ApartmentRentingDbContext db)
+        public StatsService(ApartmentRentingDbContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
 
         public IndexViewModel GetStatistics()
@@ -18,15 +22,7 @@ namespace ApartmentRentingSystem.Services
             var apartments =
                 this._db.Apartments
                     .OrderByDescending(a => a.Id)
-                    .Select(a => new ApartmentIndexViewModel()
-                    {
-                        Id = a.Id,
-                        ApartmentType = a.ApartmentType,
-                        Location = a.Location,
-                        ImageUrl = a.ImageUrl,
-                        Year = a.Year
-
-                    })
+                    .ProjectTo<ApartmentIndexViewModel>(this._mapper.ConfigurationProvider)
                     .Take(3)
                     .ToList();
 

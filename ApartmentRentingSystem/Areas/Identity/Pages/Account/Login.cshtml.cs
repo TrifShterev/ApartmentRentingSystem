@@ -20,8 +20,7 @@ namespace ApartmentRentingSystem.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<User> signInManager, 
-            ILogger<LoginModel> logger,
-            UserManager<User> userManager)
+            ILogger<LoginModel> logger)
         {
            
             _signInManager = signInManager;
