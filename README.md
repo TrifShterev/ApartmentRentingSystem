@@ -8,6 +8,7 @@ username: admin@ars.com
 password: admin12
 
 Used tech stack:
+Bootstrap 5
 C#
 .Net
 EF Core
