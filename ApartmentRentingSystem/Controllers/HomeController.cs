@@ -1,6 +1,4 @@
-﻿using ApartmentRentingSystem.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Mvc;
 using ApartmentRentingSystem.Services;
 namespace ApartmentRentingSystem.Controllers
 {
@@ -31,7 +29,7 @@ namespace ApartmentRentingSystem.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }

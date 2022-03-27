@@ -6,6 +6,7 @@ using ApartmentRentingSystem.Services.Brokers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,9 +44,15 @@ namespace ApartmentRentingSystem
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApartmentRentingDbContext>();
 
+
+
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddControllersWithViews();
+            // Adds AntiForgeryToken to the entire solution - prevents SQL injections, XSS...
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             services.AddTransient<IStatsService, StatsService>();
             services.AddTransient<IApartmentsService, ApartmentsService>();
