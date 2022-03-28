@@ -18,5 +18,12 @@ namespace ApartmentRentingSystem.Areas.Admin.Controllers
 
             return View(allApartments);
         }
+
+        public IActionResult ApproveEstate(int id)
+        {
+            this._apartmentsService.ApproveEstate(id);
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

@@ -6,9 +6,7 @@
 
 @{
     var apartments = Model.Apartments;
-    var apartment1 = apartments.Any() ? apartments[0] : null;
-    var apartment2 = apartments.Any() ? apartments[1] : null;
-    var apartment3 = apartments.Any() ? apartments[2] : null;
+   
 }
 @if (!apartments.Any())
 {
@@ -24,39 +22,15 @@
 }
 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
+  
     <div class="carousel-inner">
-        @if (apartment1 != null)
+        @for (int i = 0; i < apartments.Count; i++)
         {
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="@apartment1.ImageUrl" alt="@apartment1.ApartmentType @apartment1.Year @apartment1.Location">
+            var apartment = Model.Apartments[i];
+            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+                <img class="d-block w-100" src="@apartment.ImageUrl" alt="@apartment.ApartmentType @apartment.Location">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment1.Id" asp-route-information="@(apartment1.ApartmentType +" "+apartment1.Location)">@apartment1.ApartmentType @apartment1.Year</a></h5>
-                  
-                </div>
-            </div>
-        }
-        @if (apartment2 != null)
-        {
-            <div class="carousel-item">
-                <img class="d-block w-100" src="@apartment2.ImageUrl" alt="@apartment2.ApartmentType @apartment2.Year @apartment2.Location">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment2.Id" asp-route-information="@(apartment2.ApartmentType +" "+apartment2.Location)">@apartment2.ApartmentType @apartment2.Year</a></h5>
-                   
-                </div>
-            </div>
-        }
-        @if (apartment3 != null)
-        {
-            <div class="carousel-item">
-                <img class="d-block w-100" src="@apartment3.ImageUrl" alt="@apartment3.ApartmentType @apartment3.Year @apartment3.Location">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment3.Id" asp-route-information="@(apartment3.ApartmentType +" "+apartment3.Location)">@apartment3.ApartmentType @apartment3.Year</a></h5>
-
+                    <h5><a class="btn btn-primary" asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@apartment.ApartmentType">@apartment.Year  @apartment.Location @apartment.ApartmentType</a></h5>
                 </div>
             </div>
         }

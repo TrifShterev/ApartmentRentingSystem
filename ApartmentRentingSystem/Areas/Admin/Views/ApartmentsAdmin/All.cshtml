@@ -13,6 +13,7 @@
         <th scope="col">Apartment Type</th>
         <th scope="col">Location</th>
         <th scope="col">Category</th>
+        <th scope="col">Approved</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -24,11 +25,16 @@
             <td scope="col">@apartment.ApartmentType</td>
             <td scope="col">@apartment.Location</td>
             <td scope="col">@apartment.CategoryName</td>
+            <td scope="col">@(apartment.IsPublic ? "Yes" : "No")
+                <a asp-area="Admin" asp-controller="ApartmentsAdmin" asp-action="ApproveEstate" asp-route-id="@apartment.Id" class="btn btn-info float-right ml-3">@(apartment.IsPublic ? "Hide" : "Approve")</a>
+            </td>
             <td scope="col">
-                <a asp-area="" asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@(apartment.ApartmentType +" "+apartment.Location)" class="btn btn-primary float-right">Details</a>
-                <a asp-area="" asp-controller="Apartment" asp-action="Edit" asp-route-id="@apartment.Id" class="btn btn-warning float-right">Edit</a>
-                <a asp-area="" asp-controller="Apartment" asp-action="Delete" asp-route-id="@apartment.Id" class="btn btn-danger float-right">Delete</a>
                 
+                <a asp-area="" asp-controller="Apartment" asp-action="Delete" asp-route-id="@apartment.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                <a asp-area="" asp-controller="Apartment" asp-action="Edit" asp-route-id="@apartment.Id" class="btn btn-warning float-right ml-3">Edit</a>
+              
+                <a asp-area="" asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@(apartment.ApartmentType + " " + apartment.Location)" class="btn btn-primary float-right ml-3">Details</a>
+
             </td>
         </tr>
     }

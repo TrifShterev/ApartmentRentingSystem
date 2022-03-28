@@ -23,6 +23,8 @@ namespace ApartmentRentingSystem.Services.Apartments
 
         public bool EditApartment(int apartmentId,ApartmentFormModel apartment, int brokerId, bool isPublic);
 
+        void ApproveEstate(int apartmentId);
+
         public IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories();
     }
 }

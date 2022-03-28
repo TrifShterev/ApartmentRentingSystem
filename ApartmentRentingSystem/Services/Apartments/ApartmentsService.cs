@@ -76,6 +76,15 @@ namespace ApartmentRentingSystem.Services.Apartments
 
         }
 
+        public void ApproveEstate(int apartmentId)
+        {
+            var apartment = this._db.Apartments.Find(apartmentId);
+
+            apartment.IsPublic = !apartment.IsPublic;
+
+            this._db.SaveChanges();
+        }
+
         public AllApartmentsSearchModel GetAll(
             string apartmentType = null,
             string searchTerm = null,
@@ -86,7 +95,7 @@ namespace ApartmentRentingSystem.Services.Apartments
         {
             var apartmentsQuery = this._db
                 .Apartments
-                .Where(a => a.IsPublic == publicOnly);
+                .Where(a => publicOnly ? a.IsPublic : true);
             // .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(apartmentType))
@@ -144,16 +153,9 @@ namespace ApartmentRentingSystem.Services.Apartments
                     Name = c.Name,
                 }).ToList();
 
-        private static IEnumerable<ApartmentListingViewModel> GetApartments(IQueryable<Apartment> apartmentQuery)
+        private  IEnumerable<ApartmentListingViewModel> GetApartments(IQueryable<Apartment> apartmentQuery)
         => apartmentQuery
-            .Select(a => new ApartmentListingViewModel
-            {
-                Id = a.Id,
-                ApartmentType = a.ApartmentType,
-                Location = a.Location,
-                ImageUrl = a.ImageUrl,
-                Year = a.Year,
-                CategoryName = a.Category.Name,
-            }).ToList();
+            .ProjectTo<ApartmentListingViewModel>(_mapper.ConfigurationProvider)
+            .ToList();
     }
 }

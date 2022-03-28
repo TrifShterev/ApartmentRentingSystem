@@ -138,6 +138,8 @@ namespace ApartmentRentingSystem.Controllers
 
 
 
+
+
         public IActionResult All([FromQuery] AllApartmentsSearchModel query)
         {
 

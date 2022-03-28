@@ -11,10 +11,18 @@ namespace ApartmentRentingSystem.Infrastructure
         {
             this.CreateMap<ApartmentDetailsModel, ApartmentFormModel>();
 
+            this.CreateMap<ApartmentFormModel, Apartment>();
+
             this.CreateMap<Apartment, ApartmentIndexViewModel>();
 
-            this.CreateMap<ApartmentFormModel, Apartment>();
-            
+            this.CreateMap<Apartment, ApartmentListingViewModel>()
+                .ForMember(a => a.CategoryName,
+                    config => config.MapFrom(a => a.Category.Name));
+                ;
+
+
+
+
             //Sets the Automapper to map specific property from one object to another
             this.CreateMap<Apartment, ApartmentDetailsModel>()
                 .ForMember(a => a.UserId,
