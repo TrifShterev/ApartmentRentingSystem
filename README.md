@@ -8,12 +8,24 @@ username: admin@ars.com
 password: admin12
 
 Used tech stack:
+
 Bootstrap 5
+
 C#
+
 .Net
+
 EF Core
+
 MVC pattern
+
 Razor Pages
+
 Auto Mapper
+
+XUnit
+
+MyTested.AspNet.Mvc.Universe
+
 and more...
 
