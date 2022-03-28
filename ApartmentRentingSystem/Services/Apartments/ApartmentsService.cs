@@ -38,6 +38,7 @@ namespace ApartmentRentingSystem.Services.Apartments
         {
             var newApartment = this._mapper.Map<Apartment>(apartment);
             newApartment.BrokerId = brokerId;
+            newApartment.IsPublic = false;
               
 
             this._db.Apartments.Add(newApartment);
@@ -57,12 +58,14 @@ namespace ApartmentRentingSystem.Services.Apartments
                 return false;
             }
 
+           
             currentApartmentData.ApartmentType = apartment.ApartmentType;
             currentApartmentData.Location = apartment.Location;
             currentApartmentData.ImageUrl = apartment.ImageUrl;
             currentApartmentData.Year = apartment.Year;
             currentApartmentData.Description = apartment.Description;
             currentApartmentData.CategoryId = apartment.CategoryId;
+            currentApartmentData.IsPublic = false;
 
 
             this._db.SaveChanges();
@@ -80,8 +83,9 @@ namespace ApartmentRentingSystem.Services.Apartments
             int apartmentsPerPage)
         {
             var apartmentsQuery = this._db
-             .Apartments
-             .AsQueryable();
+                .Apartments
+                .Where(a => a.IsPublic);
+            // .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(apartmentType))
             {

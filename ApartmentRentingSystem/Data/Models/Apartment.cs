@@ -21,6 +21,8 @@ public class Apartment
 
     public int Year { get; set; }
 
+    public bool IsPublic { get; set; }
+
     [Required]
     public string Description { get; set; }
 

@@ -25,6 +25,8 @@
         public static class WebConstants
         {
             public const string AdminRoleName = "Administrator";
+
+            public const string GlobalMessageKey = "GlobalMessage";
         }
        
     }

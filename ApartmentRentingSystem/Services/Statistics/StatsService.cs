@@ -22,11 +22,12 @@ namespace ApartmentRentingSystem.Services
             var apartments =
                 this._db.Apartments
                     .OrderByDescending(a => a.Id)
+                    .Where(a => a.IsPublic)
                     .ProjectTo<ApartmentIndexViewModel>(this._mapper.ConfigurationProvider)
                     .Take(3)
                     .ToList();
 
-            var totalApartments = this._db.Apartments.Count();
+            var totalApartments = this._db.Apartments.Count(a => a.IsPublic);
             var totalUsers = this._db.Users.Count();
 
 

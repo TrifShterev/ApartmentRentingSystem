@@ -3,9 +3,11 @@ using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Apartments;
 using ApartmentRentingSystem.Services.Apartments;
 using ApartmentRentingSystem.Services.Brokers;
+using ApartmentRentingSystem.Utilities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace ApartmentRentingSystem.Controllers
 {
@@ -64,10 +66,11 @@ namespace ApartmentRentingSystem.Controllers
                 return View(apartment);
             }
 
-            this._apartmentsService.AddApartment(apartment, brokerId);
+           var apartmentId = this._apartmentsService.AddApartment(apartment, brokerId);
 
+            TempData[Constants.WebConstants.GlobalMessageKey] = "Your estate was added and waits for approval by Administrator!";
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Details), new {id = apartmentId});
         }
 
         [Authorize]
@@ -126,7 +129,9 @@ namespace ApartmentRentingSystem.Controllers
                 return BadRequest();
             }
 
-            return RedirectToAction(nameof(All));
+            TempData[Constants.WebConstants.GlobalMessageKey] = "Your estate was edited and waits for approval by Administrator!";
+
+            return RedirectToAction(nameof(Details), new { id });
         }
 
 
@@ -149,11 +154,11 @@ namespace ApartmentRentingSystem.Controllers
         {
             var apartment = this._apartmentsService.Details(id);
 
-            //prevents URL from forEaching and scraping
-            if (!information.Contains(apartment.ApartmentType) || !information.Contains(apartment.Location))
-            {
-                return BadRequest();
-            }
+            //TODO: prevents URL from forEaching and scraping
+            //if (!information.Contains(apartment.ApartmentType) || !information.Contains(apartment.Location))
+            //{
+            //    return BadRequest();
+            //}
 
             return View(apartment);
         }
