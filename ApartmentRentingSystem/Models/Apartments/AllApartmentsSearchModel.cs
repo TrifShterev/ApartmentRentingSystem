@@ -1,12 +1,13 @@
 ﻿
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ApartmentRentingSystem.Utilities;
 
 namespace ApartmentRentingSystem.Models.Apartments
 {
     public class AllApartmentsSearchModel
     {
-        public const int ApartmentsPerPage = 6;
+        public const int ApartmentsPerPage = Constants.ApartmentsPerPage;
 
         [Display(Name = "Select Apartment Type:")]
         public string ApartmentType { get; set; }

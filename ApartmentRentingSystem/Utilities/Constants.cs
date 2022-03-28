@@ -6,6 +6,8 @@
         public const int ApartmentTypeMinLength = 2;
         public const int CategoryNameMaxLength = 20;
 
+        public const int ApartmentsPerPage = 6;
+
         public static class User
         {
             public const int UserNameMaxLength = 50;
@@ -25,6 +27,8 @@
         public static class WebConstants
         {
             public const string AdminRoleName = "Administrator";
+
+            public const string AreaName = "Admin";
 
             public const string GlobalMessageKey = "GlobalMessage";
         }

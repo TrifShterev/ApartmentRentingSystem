@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Data.Models;
@@ -47,7 +48,7 @@ namespace ApartmentRentingSystem.Services.Apartments
             return newApartment.Id;
         }
 
-        public bool EditApartment(int apartmentId, ApartmentFormModel apartment, int brokerId)
+        public bool EditApartment(int apartmentId, ApartmentFormModel apartment, int brokerId, bool isPublic)
         {
             var currentApartmentData = this._db
                 .Apartments
@@ -65,7 +66,7 @@ namespace ApartmentRentingSystem.Services.Apartments
             currentApartmentData.Year = apartment.Year;
             currentApartmentData.Description = apartment.Description;
             currentApartmentData.CategoryId = apartment.CategoryId;
-            currentApartmentData.IsPublic = false;
+            currentApartmentData.IsPublic = isPublic;
 
 
             this._db.SaveChanges();
@@ -76,15 +77,16 @@ namespace ApartmentRentingSystem.Services.Apartments
         }
 
         public AllApartmentsSearchModel GetAll(
-            string apartmentType,
-            string searchTerm,
-            ApartmentSortingEnum sorting,
-            int currentPage,
-            int apartmentsPerPage)
+            string apartmentType = null,
+            string searchTerm = null,
+            ApartmentSortingEnum sorting = ApartmentSortingEnum.Year,
+            int currentPage = 1 ,
+            int apartmentsPerPage = Int32.MaxValue,
+            bool publicOnly = true)
         {
             var apartmentsQuery = this._db
                 .Apartments
-                .Where(a => a.IsPublic);
+                .Where(a => a.IsPublic == publicOnly);
             // .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(apartmentType))

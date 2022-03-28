@@ -1,0 +1,36 @@
+﻿@model AllApartmentsSearchModel
+
+@{
+    ViewData["Title"] = "All Estates";
+}
+
+<h1>All Estates</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Apartment Type</th>
+        <th scope="col">Location</th>
+        <th scope="col">Category</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var apartment in Model.Apartments)
+    {
+        <tr>
+            <td scope="col">@apartment.Id</td>
+            <td scope="col">@apartment.ApartmentType</td>
+            <td scope="col">@apartment.Location</td>
+            <td scope="col">@apartment.CategoryName</td>
+            <td scope="col">
+                <a asp-area="" asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@(apartment.ApartmentType +" "+apartment.Location)" class="btn btn-primary float-right">Details</a>
+                <a asp-area="" asp-controller="Apartment" asp-action="Edit" asp-route-id="@apartment.Id" class="btn btn-warning float-right">Edit</a>
+                <a asp-area="" asp-controller="Apartment" asp-action="Delete" asp-route-id="@apartment.Id" class="btn btn-danger float-right">Delete</a>
+                
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

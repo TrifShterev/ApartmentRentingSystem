@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Apartments;
 using ApartmentRentingSystem.Services.Apartments;
@@ -7,6 +8,7 @@ using ApartmentRentingSystem.Utilities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 namespace ApartmentRentingSystem.Controllers
@@ -122,14 +124,14 @@ namespace ApartmentRentingSystem.Controllers
                 return View(apartment);
             }
 
-            var apartmentIsEdited = this._apartmentsService.EditApartment(id, apartment, brokerId);
+            var apartmentIsEdited = this._apartmentsService.EditApartment(id, apartment, brokerId, this.User.IsAdmin());
 
             if (!apartmentIsEdited && !User.IsAdmin())
             {
                 return BadRequest();
             }
 
-            TempData[Constants.WebConstants.GlobalMessageKey] = "Your estate was edited and waits for approval by Administrator!";
+            TempData[Constants.WebConstants.GlobalMessageKey] = $"Your estate was edited {(this.User.IsAdmin() ? String.Empty : "and waits for approval by Administrator")}!";
 
             return RedirectToAction(nameof(Details), new { id });
         }
