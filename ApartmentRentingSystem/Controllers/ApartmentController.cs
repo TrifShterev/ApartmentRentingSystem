@@ -145,6 +145,18 @@ namespace ApartmentRentingSystem.Controllers
             return View(apartments);
         }
 
+        public IActionResult Details(int id, string information)
+        {
+            var apartment = this._apartmentsService.Details(id);
+
+            //prevents URL from forEaching and scraping
+            if (!information.Contains(apartment.ApartmentType) || !information.Contains(apartment.Location))
+            {
+                return BadRequest();
+            }
+
+            return View(apartment);
+        }
 
         [Authorize]
         public IActionResult Mine()

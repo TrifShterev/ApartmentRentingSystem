@@ -35,7 +35,7 @@
             <div class="carousel-item active">
                 <img class="d-block w-100" src="@apartment1.ImageUrl" alt="@apartment1.ApartmentType @apartment1.Year @apartment1.Location">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment1.Id">@apartment1.ApartmentType @apartment1.Year</a></h5>
+                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment1.Id" asp-route-information="@(apartment1.ApartmentType +" "+apartment1.Location)">@apartment1.ApartmentType @apartment1.Year</a></h5>
                   
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="carousel-item">
                 <img class="d-block w-100" src="@apartment2.ImageUrl" alt="@apartment2.ApartmentType @apartment2.Year @apartment2.Location">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment2.Id">@apartment2.ApartmentType @apartment2.Year</a></h5>
+                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment2.Id" asp-route-information="@(apartment2.ApartmentType +" "+apartment2.Location)">@apartment2.ApartmentType @apartment2.Year</a></h5>
                    
                 </div>
             </div>
@@ -55,7 +55,7 @@
             <div class="carousel-item">
                 <img class="d-block w-100" src="@apartment3.ImageUrl" alt="@apartment3.ApartmentType @apartment3.Year @apartment3.Location">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment3.Id">@apartment3.ApartmentType @apartment3.Year</a></h5>
+                    <h5 class="text-info"><a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment3.Id" asp-route-information="@(apartment3.ApartmentType +" "+apartment3.Location)">@apartment3.ApartmentType @apartment3.Year</a></h5>
 
                 </div>
             </div>

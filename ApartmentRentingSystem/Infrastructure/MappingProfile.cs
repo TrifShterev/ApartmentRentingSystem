@@ -18,7 +18,9 @@ namespace ApartmentRentingSystem.Infrastructure
             //Sets the Automapper to map specific property from one object to another
             this.CreateMap<Apartment, ApartmentDetailsModel>()
                 .ForMember(a => a.UserId,
-                    config => config.MapFrom(a => a.Broker.UserId));
+                    config => config.MapFrom(a => a.Broker.UserId))
+                .ForMember(c => c.CategoryName,
+                    config => config.MapFrom(c => c.Category.Name));
 
         }
     }

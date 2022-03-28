@@ -1,0 +1,13 @@
+﻿@model ApartmentDetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="col-md-6 offset-3">
+    <h2>@Model.ApartmentType @Model.Location</h2>
+    <br/>
+    <img class="d-block w-100" src="@Model.ImageUrl" alt="@Model.ApartmentType @Model.Year @Model.Location">
+    <p>@Model.Description</p>
+    <a asp-controller="Apartment" asp-action="All" class="btn btn-primary">Back to All</a>
+</div>

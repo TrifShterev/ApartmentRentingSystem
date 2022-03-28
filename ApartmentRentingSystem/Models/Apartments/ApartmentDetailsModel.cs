@@ -8,6 +8,8 @@
 
         public int CategoryId { get; set; }
 
+        public string CategoryName { get; set; }
+
         public string BrokerName { get; set; }
 
         public string UserId { get; set; }
