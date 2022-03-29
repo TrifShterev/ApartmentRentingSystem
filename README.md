@@ -15,6 +15,8 @@ C#
 
 .Net
 
+MSSQL
+
 EF Core
 
 MVC pattern

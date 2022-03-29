@@ -14,35 +14,29 @@ namespace ApartmentRentingSystemTests.Controllers
     {
 
 
-        //here is used MyTestedASPNETCoreMVC framework by Ivaylo Kenov
+        //MyTestedASPNETCoreMVC tests
         [Fact]
-        public void IndexShouldReturnViewWithCorrectModelAndData()
-            => MyController<HomeController>
-                .Instance(controller => controller.WithData(GetApartments()))
-                .Calling(a => a.Index())
+        public void IndexRouteShouldBeMapped()
+            => MyRouting
+                .Configuration()
+                .ShouldMap("/")
+                .To<HomeController>(i => i.Index());
+
+        [Fact]
+        public void IndexShouldReturnViewWithCorrectModelAndDataTestsAlsoTheRoute()
+            => MyMvc
+                .Pipeline()
+                .ShouldMap("/")
+                .To<HomeController>(x => x.Index())
+                .Which(controller => controller.WithData(GetApartments()))
                 .ShouldReturn()
                 .View(view => view
                     .WithModelOfType<IndexViewModel>()
                     .Passing(m => m.Apartments.Should().HaveCount(3)));
-        
-
-        [Fact]
-        public void ErrorShouldReturnView()
-        {
-            //Arrange
-            var homeController = new HomeController(StatisticsServiceMock.InstanceService);
-
-            //Act
-            var result = homeController.Error();
-            
-
-            //Assert
-            Assert.NotNull(result);
-           Assert.IsType<ViewResult>(result);
 
 
-        }
 
+        //regular XUnit test + FluentAssertion
         [Fact]
         public void IndexShouldReturnViewWithCorectStatistics()
         {
@@ -87,9 +81,36 @@ namespace ApartmentRentingSystemTests.Controllers
               .Invoke();
         }
 
+        [Fact]
+        public void IndexErrorRouteShouldBeMapped()
+            => MyRouting
+                .Configuration()
+                .ShouldMap("/Home/Error")
+                .To<HomeController>(e => e.Error());
+
+        [Fact]
+        public void ErrorShouldReturnView()
+        {
+            //Arrange
+            var homeController = new HomeController(StatisticsServiceMock.InstanceService);
+
+            //Act
+            var result = homeController.Error();
+
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<ViewResult>(result);
+
+
+        }
+
         private static IEnumerable<Apartment> GetApartments()
         {
-            return Enumerable.Range(0, 10).Select(i => new Apartment());
+            return Enumerable.Range(0, 10).Select(i => new Apartment
+            {
+                IsPublic = true
+            });
         }
     }
 }

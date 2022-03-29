@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Infrastructure;
 using ApartmentRentingSystem.Models.Broker;
 using ApartmentRentingSystem.Services.Brokers;
+using ApartmentRentingSystem.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,7 +44,7 @@ namespace ApartmentRentingSystem.Controllers
 
             _brokerService.AddBroker(broker,userId);
 
-           
+            TempData[Constants.WebConstants.GlobalMessageKey] = $"Welcome in our brokers team, please add your estate!";
 
             return RedirectToAction("All", "Apartment");
         }

@@ -70,7 +70,7 @@ namespace ApartmentRentingSystem.Controllers
 
            var apartmentId = this._apartmentsService.AddApartment(apartment, brokerId);
 
-            TempData[Constants.WebConstants.GlobalMessageKey] = "Your estate was added and waits for approval by Administrator!";
+           TempData[Constants.WebConstants.GlobalMessageKey] = $"Your estate was added {(this.User.IsAdmin() ? String.Empty : "and waits for approval by Administrator")}!";
 
             return RedirectToAction(nameof(Details), new {id = apartmentId});
         }
@@ -136,7 +136,7 @@ namespace ApartmentRentingSystem.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
-
+        //TODO: Delete action
 
 
 
