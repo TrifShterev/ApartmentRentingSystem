@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using ApartmentRentingSystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using ApartmentRentingSystem.Models.Apartments;
 
 namespace ApartmentRentingSystem.Data
 {
@@ -50,5 +51,7 @@ namespace ApartmentRentingSystem.Data
 
             base.OnModelCreating(builder);
         }
+
+        public DbSet<ApartmentRentingSystem.Models.Apartments.ApartmentDetailsModel> ApartmentDetailsModel { get; set; }
     }
 }

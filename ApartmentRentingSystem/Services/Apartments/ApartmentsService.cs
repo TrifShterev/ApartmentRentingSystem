@@ -153,6 +153,14 @@ namespace ApartmentRentingSystem.Services.Apartments
                     Name = c.Name,
                 }).ToList();
 
+        public void Delete(int id)
+        {
+          var apartment =   _db.Apartments.Find(id);
+
+          _db.Apartments.Remove(apartment);
+          _db.SaveChanges();
+        }
+
         private  IEnumerable<ApartmentListingViewModel> GetApartments(IQueryable<Apartment> apartmentQuery)
         => apartmentQuery
             .ProjectTo<ApartmentListingViewModel>(_mapper.ConfigurationProvider)

@@ -136,8 +136,29 @@ namespace ApartmentRentingSystem.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        //TODO: Delete action
+       
+        public IActionResult Delete(int id)
+        {
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
 
+            var apartment = _apartmentsService.Details(id);
+
+          
+            return View(apartment);
+        }
+
+       
+        //Post
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePost(int id)
+        {
+           _apartmentsService.Delete(id);
+
+            return RedirectToAction("All");
+        }
 
 
         public IActionResult All([FromQuery] AllApartmentsSearchModel query)
