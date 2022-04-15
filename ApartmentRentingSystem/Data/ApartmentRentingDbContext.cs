@@ -27,6 +27,8 @@ namespace ApartmentRentingSystem.Data
 
         public DbSet<OrderItem> OrderItems { get; set; }
 
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder

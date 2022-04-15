@@ -1,8 +1,12 @@
-﻿namespace ApartmentRentingSystem.Models.Apartments
+﻿using System.ComponentModel;
+
+namespace ApartmentRentingSystem.Models.Apartments
 {
     public class ApartmentDetailsModel :ApartmentListingViewModel
     {
         public string Description { get; set; }
+
+        public double Price { get; set; }
 
         public int BrokerId { get; set; }
 

@@ -29,6 +29,8 @@ namespace ApartmentRentingSystem.Models.Apartments
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 
+        public double Price { get; init; }
+
         public IEnumerable<ApartmentCategoryViewModel> Categories { get; set; }
     }
 }

@@ -64,6 +64,7 @@ namespace ApartmentRentingSystem.Services.Apartments
             currentApartmentData.Location = apartment.Location;
             currentApartmentData.ImageUrl = apartment.ImageUrl;
             currentApartmentData.Year = apartment.Year;
+            currentApartmentData.Price = apartment.Price;
             currentApartmentData.Description = apartment.Description;
             currentApartmentData.CategoryId = apartment.CategoryId;
             currentApartmentData.IsPublic = isPublic;

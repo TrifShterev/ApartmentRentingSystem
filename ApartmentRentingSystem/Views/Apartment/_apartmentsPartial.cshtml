@@ -7,9 +7,9 @@
     {
         <div class="col-md-4">
             <div class="card">
-                <img class="card-img-top" src="@apartment.ImageUrl" alt="@apartment.ApartmentType @apartment.Location @apartment.Year (@apartment.CategoryName)">
+                <img class="card-img-top" src="@apartment.ImageUrl" alt="@apartment.ApartmentType @apartment.Price @apartment.Location @apartment.Year (@apartment.CategoryName)">
                 <div class="card-body text-center">
-                    <h5 class="card-title text-center"> @apartment.CategoryName @apartment.ApartmentType (@apartment.Year) @apartment.Location </h5>
+                    <h5 class="card-title text-center"> @apartment.CategoryName @apartment.ApartmentType (@apartment.Year)  @apartment.Price€ @apartment.Location </h5>
 
                     <a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@(apartment.ApartmentType +" "+apartment.Location)" class="btn btn-primary">View Details</a>
 

@@ -6,6 +6,8 @@
 
         public string ApartmentType { get; set; }
 
+        public double Price { get; set; }
+
         public string Location { get; set; }
 
         public int Year { get; set; }

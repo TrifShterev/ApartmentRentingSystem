@@ -30,7 +30,7 @@
             <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
                 <img class="d-block w-100" src="@apartment.ImageUrl" alt="@apartment.ApartmentType @apartment.Location">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5><a class="btn btn-primary" asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@apartment.ApartmentType">@apartment.Year  @apartment.Location @apartment.ApartmentType</a></h5>
+                    <h5><a class="btn btn-primary" asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@apartment.ApartmentType">Year: @apartment.Year @apartment.Price€  @apartment.Location @apartment.ApartmentType</a></h5>
                 </div>
             </div>
         }
