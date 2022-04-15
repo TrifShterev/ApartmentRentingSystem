@@ -22,6 +22,11 @@ namespace ApartmentRentingSystem.Data
 
         public DbSet<Broker> Brokers { get; set; }
 
+        //Orders related tables
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
@@ -52,6 +57,6 @@ namespace ApartmentRentingSystem.Data
             base.OnModelCreating(builder);
         }
 
-        public DbSet<ApartmentRentingSystem.Models.Apartments.ApartmentDetailsModel> ApartmentDetailsModel { get; set; }
+       // public DbSet<ApartmentDetailsModel> ApartmentDetailsModel { get; set; }
     }
 }
