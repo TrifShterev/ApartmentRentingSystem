@@ -86,6 +86,9 @@ namespace ApartmentRentingSystem.Services.Apartments
             this._db.SaveChanges();
         }
 
+        public Apartment GetApartmentById(int id)
+            => _db.Apartments.FirstOrDefault(a => a.Id == id);
+
         public AllApartmentsSearchModel GetAll(
             string apartmentType = null,
             string searchTerm = null,

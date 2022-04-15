@@ -6,8 +6,12 @@ namespace ApartmentRentingSystem.Services.Cart
 {
     public interface ICartService
     {
-        List<ShoppingCartItem> GetShoppingCartItems(ShoppingCartModel model);
+        void AddItemToCart(Apartment apartment);
 
-        double GetShoppingCartTotal(ShoppingCartModel model);
+        void RemoveItemFromCart(Apartment apartment);
+
+        List<ShoppingCartItem> GetShoppingCartItems();
+
+        double GetShoppingCartTotal();
     }
 }

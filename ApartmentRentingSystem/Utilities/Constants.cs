@@ -31,6 +31,8 @@
             public const string AreaName = "Admin";
 
             public const string GlobalMessageKey = "GlobalMessage";
+
+            public const string CartMessageKey = "CartMessage";
         }
        
     }

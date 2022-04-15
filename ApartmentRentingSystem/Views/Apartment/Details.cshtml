@@ -9,5 +9,12 @@
     <br/>
     <img class="d-block w-100" src="@Model.ImageUrl" alt="@Model.ApartmentType @Model.Year @Model.Location">
     <p>@Model.Description</p>
+    
+   
+        <a class="btn btn-info" asp-controller="Order" asp-action="AddToCart" asp-route-id="@Model.Id">
+            Add to Card
+        </a>
+    
+   
     <a asp-controller="Apartment" asp-action="All" class="btn btn-primary">Back to All</a>
 </div>

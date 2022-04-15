@@ -12,6 +12,10 @@
                     <h5 class="card-title text-center"> @apartment.CategoryName @apartment.ApartmentType (@apartment.Year)  @apartment.Price€ @apartment.Location </h5>
 
                     <a asp-controller="Apartment" asp-action="Details" asp-route-id="@apartment.Id" asp-route-information="@(apartment.ApartmentType +" "+apartment.Location)" class="btn btn-primary">View Details</a>
+                    
+                    <a class="btn btn-info" asp-controller="Order" asp-action="AddToCart" asp-route-id="@apartment.Id">
+                        Add to Card
+                    </a>
 
                     @if (ViewBag.AllowEdit == true || User.IsAdmin())
                     {

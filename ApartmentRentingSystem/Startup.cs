@@ -1,15 +1,19 @@
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Data.Models;
+using ApartmentRentingSystem.Models.Cart;
 using ApartmentRentingSystem.Services;
 using ApartmentRentingSystem.Services.Apartments;
 using ApartmentRentingSystem.Services.Brokers;
+using ApartmentRentingSystem.Services.Cart;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 
@@ -48,6 +52,8 @@ namespace ApartmentRentingSystem
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddSession();
+
             // Adds AntiForgeryToken to the entire solution - prevents SQL injections, XSS...
             services.AddControllersWithViews(options =>
             {
@@ -57,6 +63,10 @@ namespace ApartmentRentingSystem
             services.AddTransient<IStatsService, StatsService>();
             services.AddTransient<IApartmentsService, ApartmentsService>();
             services.AddTransient<IBrokerService, BrokerService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(ShoppingCart.GetShoppingCart);
+            services.AddScoped<ICartService, ShoppingCart > ();
         }
 
         
@@ -79,6 +89,7 @@ namespace ApartmentRentingSystem
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();

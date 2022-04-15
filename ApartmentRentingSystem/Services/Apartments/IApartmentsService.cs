@@ -25,6 +25,8 @@ namespace ApartmentRentingSystem.Services.Apartments
 
         void ApproveEstate(int apartmentId);
 
+        Apartment GetApartmentById(int id);
+
         public IEnumerable<ApartmentCategoryViewModel> GetApartmentCategories();
 
         void Delete(int apartmentId);
