@@ -25,6 +25,7 @@
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Broker\" />
     <Folder Include="Models\Cart\" />
+    <Folder Include="VIewComponents\" />
     <Folder Include="Services\Brokers\" />
     <Folder Include="Utilities\" />
   </ItemGroup>

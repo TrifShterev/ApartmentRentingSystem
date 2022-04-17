@@ -11,7 +11,12 @@ namespace ApartmentRentingSystem.Infrastructure
                 return user.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
 
-            public static bool IsAdmin(this ClaimsPrincipal user)
+            public static string GetEmail(this ClaimsPrincipal user)
+            {
+                return user.FindFirst(ClaimTypes.Email).Value;
+            }
+
+        public static bool IsAdmin(this ClaimsPrincipal user)
             {
                 return user.IsInRole(AdminRoleName);
             }

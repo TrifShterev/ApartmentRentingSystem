@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Models.Cart;
 
@@ -13,5 +14,7 @@ namespace ApartmentRentingSystem.Services.Cart
         List<ShoppingCartItem> GetShoppingCartItems();
 
         double GetShoppingCartTotal();
+
+        public Task ClearShoppingCartAsync();
     }
 }

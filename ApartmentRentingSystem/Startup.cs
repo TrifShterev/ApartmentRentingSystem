@@ -5,6 +5,7 @@ using ApartmentRentingSystem.Services;
 using ApartmentRentingSystem.Services.Apartments;
 using ApartmentRentingSystem.Services.Brokers;
 using ApartmentRentingSystem.Services.Cart;
+using ApartmentRentingSystem.Services.Orders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -63,10 +64,12 @@ namespace ApartmentRentingSystem
             services.AddTransient<IStatsService, StatsService>();
             services.AddTransient<IApartmentsService, ApartmentsService>();
             services.AddTransient<IBrokerService, BrokerService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(ShoppingCart.GetShoppingCart);
             services.AddScoped<ICartService, ShoppingCart > ();
+            
         }
 
         

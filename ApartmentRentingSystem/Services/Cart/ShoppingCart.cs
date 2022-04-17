@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ApartmentRentingSystem.Data;
 using ApartmentRentingSystem.Data.Models;
 using ApartmentRentingSystem.Models.Cart;
@@ -84,6 +85,16 @@ namespace ApartmentRentingSystem.Services.Cart
             }
 
             _db.SaveChanges();
+        }
+
+        public async Task ClearShoppingCartAsync()
+        {
+            var items = await _db.ShoppingCartItems
+                .Where(x => x.ShoppingCartId == ShoppingCartId)
+                .ToListAsync();
+
+            _db.ShoppingCartItems.RemoveRange(items);
+            await _db.SaveChangesAsync();
         }
 
         public List<ShoppingCartItem> GetShoppingCartItems()
