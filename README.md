@@ -29,5 +29,7 @@ XUnit
 
 MyTested.AspNet.Mvc.Universe
 
+Azure Deployed
+
 and more...
 
